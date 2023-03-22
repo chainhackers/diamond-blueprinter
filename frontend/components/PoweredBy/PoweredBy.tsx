@@ -9,7 +9,7 @@ export const PoweredBy: React.FC<IPoweredByProps> = () => {
         <PoweredByElement imageURL='/images/mantle.png' title='Mantle' />
         <PoweredByElement imageURL='/images/polygon.png' title='Polygon' />
         {/* <PoweredByElement imageURL='/images/polybase.jpeg' title='Polybase' /> */}
-        {/* <PoweredByElement imageURL='/images/graph.jpeg' title='Graph' /> */}
+        <PoweredByElement imageURL='/images/graph.jpeg' title='Graph' />
         {/* <PoweredByElement imageURL='/images/filecoin.png' title='Filecoin' /> */}
         {/* <PoweredByElement imageURL='/images/connext.png' title='Connext' /> */}
       </div>
