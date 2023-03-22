@@ -11,7 +11,7 @@ import { Layout } from '@/components';
 
 const { chains, provider, webSocketProvider } = configureChains(
   [polygon],
-  [alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY! })],
+  [alchemyProvider({ apiKey: 'Mz4PxJrs78Ud3oRJ3FlAcaPyvhLST_bw' })],
 );
 
 const { connectors } = getDefaultWallets({
