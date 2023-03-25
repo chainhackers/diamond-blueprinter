@@ -7,10 +7,9 @@ import { useDiamondContext } from '@/contexts';
 export default function Page1() {
   const router = useRouter();
   // console.log(router);
+
   const { query } = router;
-
   const { contract } = query;
-
   const storages: IStoragaData[] = [
     {
       logo: '📦',

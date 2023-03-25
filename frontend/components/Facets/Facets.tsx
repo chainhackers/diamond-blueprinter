@@ -36,6 +36,7 @@ export const Facets: React.FC<IFacetsProps> = () => {
     event.preventDefault();
     event.stopPropagation();
   };
+
   return (
     <div className={styles.container}>
       <div className={styles.heading}>

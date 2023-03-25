@@ -74,6 +74,7 @@ export const Diamond: React.FC<IDiamondProps> = () => {
   //   setFacets(mappedFacets);
   // }, [cuttedFacets, selectedFacets]);
   // console.log('diamond', selectedFacets);
+
   return (
     <div className={styles.container}>
       <h2 className={styles.h2}>Diamond</h2>
@@ -98,7 +99,9 @@ export const Diamond: React.FC<IDiamondProps> = () => {
                   Your diamond has no facets yet. choose what you like on the side and start
                   building a beautiful and correct dream code!
                 </div>
+
               ))} */}
+
           </div>
         </div>
         <div className={styles.cutButton}>

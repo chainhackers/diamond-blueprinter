@@ -7,6 +7,7 @@ export const Picked: React.FC<IPickedProps> = ({ name, group, address, methods, 
   return (
     <div className={styles.container} onClick={onClick}>
       <div className={styles.groupName}>{group ? group : 'Ungrouped'}</div>
+
       {name ? (
         <div className={styles.name}>{name}</div>
       ) : (
