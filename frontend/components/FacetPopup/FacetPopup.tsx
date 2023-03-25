@@ -120,9 +120,9 @@ export const FacetPopup: React.FC<IFacetPopupProps> = () => {
               <button className={styles.button} onClick={closeButtonHandler}>
                 Close
               </button>
-              <button className={styles.button} onClick={editButtonHandler}>
+              {/* <button className={styles.button} onClick={editButtonHandler}>
                 Edit
-              </button>
+              </button> */}
               <button className={cn(styles.button, styles.close)} onClick={saveButtonHandler}>
                 Save
               </button>

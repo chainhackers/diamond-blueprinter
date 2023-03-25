@@ -36,7 +36,8 @@ export const Diamond: React.FC<IDiamondProps> = () => {
   //   },
   // ];
 
-  const { cuttedFacets, selectedFacets, showPopup } = useDiamondContext();
+  const { cuttedFacets, selectedFacets, showPopup, getCutAndSelectedFacetsDiff } =
+    useDiamondContext();
   // const [facets, setFacets] = useState<IFacet[]>([]);
   // const pickedElems: any = [];
 
@@ -74,14 +75,18 @@ export const Diamond: React.FC<IDiamondProps> = () => {
   //   setFacets(mappedFacets);
   // }, [cuttedFacets, selectedFacets]);
   // console.log('diamond', selectedFacets);
+  console.log('dif', getCutAndSelectedFacetsDiff());
   return (
     <div className={styles.container}>
+      <div className={styles.diamondImage}>
+        <img src='/images/full-diamond.png' alt='diamond' />
+      </div>
       <h2 className={styles.h2}>Diamond</h2>
       <div className={styles.contains}>
         <div className={styles.diamonBlock}>
-          <div className={styles.background}>
+          {/* <div className={styles.background}>
             <img className={styles.img} src='/images/full-diamond.png' alt='half-diamond'></img>
-          </div>
+          </div> */}
 
           <div className={styles.picked}>
             {/* {!!facets && pickedElems.length > 0 && <h3 className={styles.h3}>Picked</h3>} */}
@@ -100,13 +105,14 @@ export const Diamond: React.FC<IDiamondProps> = () => {
                 </div>
               ))} */}
           </div>
+          <div className={styles.cutButton}>
+            <button disabled={getCutAndSelectedFacetsDiff().length === 0}>Cut</button>
+          </div>
         </div>
-        <div className={styles.cutButton}>
-          <button>Cut</button>
-        </div>
-        <div className={styles.zipButton}>
+
+        {/* <div className={styles.zipButton}>
           <button>Download ZIP</button>
-        </div>
+        </div> */}
       </div>
     </div>
   );

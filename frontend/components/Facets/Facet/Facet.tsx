@@ -1,3 +1,4 @@
+import cn from 'classnames';
 import { IFacetProps } from './FacetProps';
 import styles from './Facet.module.scss';
 import Blockies from 'react-blockies';
@@ -11,10 +12,17 @@ export const Facet: React.FC<IFacetProps> = ({
   // selectedMethods,
 }) => {
   const trunccatedAddress = address.slice(0, 5) + '...' + address.slice(-4);
-  const { getSelectedFacetsMethodsNames } = useDiamondContext();
+  const { getSelectedFacetMethodsNames } = useDiamondContext();
+
+  const selectedMethods = methods.filter((method) =>
+    getSelectedFacetMethodsNames({ name, address, methods, group }).includes(method.name),
+  );
 
   return (
-    <div className={styles.container} onClick={onClick}>
+    <div
+      className={cn(styles.container, selectedMethods.length > 0 ? styles.selected : null)}
+      onClick={onClick}
+    >
       <div className={styles.name}>{name}</div>
       <div className={styles.address}>
         <div className={styles.addressIcon}>
@@ -24,15 +32,22 @@ export const Facet: React.FC<IFacetProps> = ({
         {trunccatedAddress}
       </div>
       <div className={styles.methods}>
-        {methods.map((method) => (
+        {/* {methods.map((method) => (
           <div
             key={method.name + address}
             className={styles.method}
             style={
-              getSelectedFacetsMethodsNames({ name, address, methods, group }).includes(method.name)
+              getSelectedFacetMethodsNames({ name, address, methods, group }).includes(method.name)
                 ? { backgroundColor: `${method.color}`, color: 'white' }
                 : undefined
             }
+          ></div>
+        ))} */}
+        {selectedMethods.map((method) => (
+          <div
+            key={method.name + address}
+            className={styles.method}
+            style={{ backgroundColor: `${method.color}` }}
           ></div>
         ))}
       </div>

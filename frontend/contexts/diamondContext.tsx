@@ -1,4 +1,4 @@
-import { IFacet, IFacetGroup, IPopupData } from '@/types';
+import { IFacet, IFacetGroup, IMethod, IPopupData } from '@/types';
 import { bool } from 'prop-types';
 import { createContext, Dispatch, SetStateAction, useContext, useEffect, useState } from 'react';
 
@@ -13,7 +13,9 @@ interface IDiamondContextState {
   updateSelectedFacets: (facet: IFacet) => void;
   selectedFacets: IFacet[];
   cuttedFacets: IFacet[];
-  getSelectedFacetsMethodsNames: (facet: IFacet) => string[];
+  getSelectedFacetMethodsNames: (facet: IFacet) => string[];
+  getSelectedFacetsMethods: () => IMethod[];
+  getCutAndSelectedFacetsDiff: () => IFacet[];
 }
 
 const diamondDefaultContextState: IDiamondContextState = {
@@ -27,7 +29,9 @@ const diamondDefaultContextState: IDiamondContextState = {
   updateSelectedFacets: (facet: IFacet) => undefined,
   selectedFacets: [],
   cuttedFacets: [],
-  getSelectedFacetsMethodsNames: (facet: IFacet) => [],
+  getSelectedFacetMethodsNames: (facet: IFacet) => [],
+  getSelectedFacetsMethods: () => [],
+  getCutAndSelectedFacetsDiff: () => [],
 };
 
 export const DiamondContext = createContext<IDiamondContextState>(diamondDefaultContextState);
@@ -55,12 +59,32 @@ export const DiamondContextProvider: React.FC<{ children: React.ReactNode }> = (
     // setFacets(upDatedFacets);
   };
 
-  const getSelectedFacetsMethodsNames = (facet: IFacet) => {
+  const getSelectedFacetMethodsNames = (facet: IFacet) => {
     const selectedFacet = selectedFacets.find(
       (selectedFacet) => selectedFacet.address === facet.address,
     );
     if (!selectedFacet) return [];
     return selectedFacet.methods.map((method) => method.name);
+  };
+
+  const getSelectedFacetsMethods = (): IMethod[] =>
+    selectedFacets.flatMap((facet) => facet.methods);
+
+  const getCutAndSelectedFacetsDiff = (): IFacet[] => {
+    const diff = selectedFacets.filter((selectedFacet) => {
+      const selectedFacetInCut = cuttedFacets.find(
+        (cuttedFacet) => cuttedFacet.address === selectedFacet.address,
+      );
+
+      if (!selectedFacetInCut) return true;
+      if (selectedFacetInCut.methods.length !== selectedFacet.methods.length) return true;
+      for (const method of selectedFacetInCut.methods) {
+        if (!selectedFacet.methods.includes(method)) return true;
+      }
+      return false;
+    });
+
+    return diff;
   };
 
   const updateSelectedFacets = (updatedFacet: IFacet) => {
@@ -98,7 +122,9 @@ export const DiamondContextProvider: React.FC<{ children: React.ReactNode }> = (
     togglePopup: () => setShowPopup(!isPopupShown),
     updateFacet,
     updateSelectedFacets,
-    getSelectedFacetsMethodsNames,
+    getSelectedFacetMethodsNames,
+    getSelectedFacetsMethods,
+    getCutAndSelectedFacetsDiff,
   };
   return <DiamondContext.Provider value={value}>{children}</DiamondContext.Provider>;
 };

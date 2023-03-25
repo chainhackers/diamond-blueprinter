@@ -1,61 +1,62 @@
 .container {
+  position: relative;
+
+  .diamondImage {
+    position: absolute;
+    right: 0;
+    top: -1rem;
+    height: 25rem;
+    img {
+      height: 100%;
+    }
+
+    @media screen and (max-width: 768px) {
+      right: -12rem;
+    }
+  }
   .h2 {
     font-size: 4rem;
-    line-height: 3rem;
+    line-height: 4rem;
     font-weight: 500;
     padding: 2rem;
     color: var(--lighter-diamond-blue-1);
   }
 
   .contains {
-    
     position: relative;
 
     .diamonBlock {
+      background: rgb(236, 245, 252);
+      background: linear-gradient(
+        90deg,
+        rgba(236, 245, 252, 1) 0%,
+        rgba(116, 181, 231, 1) 76%,
+        rgba(169, 214, 242, 1) 100%
+      );
       overflow: hidden;
-      min-height: 53rem;
+      // min-height: 53rem;
       position: relative;
       border-radius: 16px;
 
       margin-bottom: 2.4rem;
       border: 1px solid #bcccdc;
-      padding: 2rem;
+      padding: 1.2rem;
       z-index: 0;
-      .background {
-        background-image: url(../../public/images/grad-1.webp);
-        background-size: cover;
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        opacity: 0.5;
-        top: 0;
-        left: 0;
-        z-index: -1;
-        img {
-          position: absolute;
-          top: 0;
-          right: 0;
-          opacity: 0.8;
-          height: 53rem;
-          width: 54rem;
-
-          transform: translateX(50%);
-        }
+      display: flex;
+      align-items: center;
+      @media screen and (max-width: 768px) {
+        display: block;
       }
       .picked {
-        .h3 {
-          font-style: normal;
-          font-weight: 500;
-          font-size: 2.4rem;
-          line-height: 3.2rem;
-          color: black;
-        }
-
+        flex: 1;
         .pickedElements {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 2rem;
+          display: flex;
+          flex-wrap: wrap;
 
+          & > * {
+            margin-bottom: 0.5rem;
+            margin-right: 0.5rem;
+          }
         }
 
         .empty {
@@ -74,21 +75,30 @@
 
     .cutButton {
       width: 100%;
-      margin-bottom: 1.2rem;
+      margin: 1.2rem 0;
+      flex: 0 0 20rem;
       button {
-        border-radius: 16px;
-        background-color: #dceefb;
+        border-radius: 8px;
+        background-color: #0f609b;
+        cursor: pointer;
+
         width: 100%;
         display: inline-block;
 
         border: none;
-        color: #003e6b;
+        color: white;
         font-style: normal;
         font-weight: 600;
         font-size: 2.4rem;
         line-height: 3.6rem;
         padding: 1.7rem;
-        border: 1px solid #bcccdc;
+        border: none;
+
+        &:disabled {
+          background-color: #dceefb;
+          color: rgb(161, 161, 161);
+          border: 1px solid #bcccdc;
+        }
       }
     }
 

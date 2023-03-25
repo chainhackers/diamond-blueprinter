@@ -6,7 +6,7 @@ export const Picked: React.FC<IPickedProps> = ({ name, group, address, methods, 
   const trunccatedAddress = address.slice(0, 5) + '...' + address.slice(-4);
   return (
     <div className={styles.container} onClick={onClick}>
-      <div className={styles.groupName}>{group ? group : 'Ungrouped'}</div>
+      {/* <div className={styles.groupName}>{group ? group : 'Ungrouped'}</div> */}
       {name ? (
         <div className={styles.name}>{name}</div>
       ) : (

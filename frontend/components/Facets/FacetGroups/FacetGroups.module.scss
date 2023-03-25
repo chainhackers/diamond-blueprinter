@@ -1,6 +1,7 @@
 .container {
   background-color: aqua;
   background-color: #efefef;
+  background-color: #dceefb;
   border-radius: 16px;
   display: flex;
   padding: 1rem;
@@ -53,6 +54,11 @@
       & > div {
         margin-right: 0.5rem;
         margin-bottom: 0.5rem;
+
+        @media screen and (max-width: 768px) {
+          margin-right: 1rem;
+          margin-bottom: 1rem;
+        }
       }
     }
   }

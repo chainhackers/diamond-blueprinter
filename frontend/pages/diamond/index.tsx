@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import styles from '@/styles/DiamondPage.module.scss';
-import { Diamond, FacetPopup, Facets, Storages } from '@/components';
+import { Diamond, FacetPopup, Facets, ResultingInterface, Storages } from '@/components';
 import { IFacet, IStoragaData } from '@/types';
 import { useDiamondContext } from '@/contexts';
 export default function Page1() {
@@ -72,9 +72,10 @@ export default function Page1() {
       <main className={styles.main}>
         {isPopupShown && <FacetPopup />}
         <div className={styles.gridContainer}>
-          <Storages storages={storages} />
           <Diamond />
+          <Storages storages={storages} />
           <Facets />
+          <ResultingInterface />
         </div>
       </main>
     </>

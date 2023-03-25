@@ -3,8 +3,18 @@
   border-radius: 16px;
   padding: 1.2rem;
   display: grid;
+  column-gap: 1rem;
   grid-template-columns: max-content 1fr;
   cursor: pointer;
+
+  &.selected {
+    background-color: #0f609b;
+    color: white;
+    .name,
+    .address {
+      color: white;
+    }
+  }
   .name {
     font-style: normal;
     font-weight: 500;
@@ -38,7 +48,10 @@
   .methods {
     display: flex;
     align-items: center;
-    padding: 0 1rem;
+    padding: 0.5rem;
+    background-color: white;
+    border-radius: 100px;
+    justify-self: start;
 
     & > div {
       margin: 0 0.25rem;
