@@ -34,6 +34,13 @@ export interface IPopupData {
   facet: IFacet;
 }
 
+export interface ISummaryDataElement {
+  address: string;
+  group: string;
+  methodName: string;
+}
 export interface ISummaryData {
-  facet: IFacet;
+  add: ISummaryDataElement[];
+  remove: ISummaryDataElement[];
+  replace: ISummaryDataElement[];
 }

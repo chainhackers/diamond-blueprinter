@@ -15,7 +15,7 @@ const inter = Inter({ subsets: ['latin'] });
 export default function Home() {
   const [deploying, setDeploying] = useState<boolean>(false);
   const [deployingError, setDeployingError] = useState<Error | null>(null);
-  
+
   const router = useRouter();
   const deployButtonHandler: React.MouseEventHandler = async () => {
     try {
@@ -31,7 +31,7 @@ export default function Home() {
       const transaction: ContractTransaction = await contract.extractDiamond();
       const receipt: ContractReceipt = await transaction.wait();
       if (receipt.status === 1)
-        router.push(`/page1?contract=${'0x88c875606ae309172f89f231df5a9ffb5ad64994'}`);
+        router.push(`/diamond?contract=${'0x88c875606ae309172f89f231df5a9ffb5ad64994'}`);
     } catch (error) {
       console.log(error);
       if (error instanceof Error) {
@@ -75,7 +75,6 @@ export default function Home() {
         <div className={styles.poweredBy}>
           <PoweredBy />
         </div>
-
       </main>
       <footer className={styles.footer}>
         <div className={styles.subTitle}>

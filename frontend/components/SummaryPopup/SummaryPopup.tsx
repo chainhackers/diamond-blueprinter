@@ -6,10 +6,43 @@ import styles from './SummaryPopup.module.scss';
 import { useDiamondContext } from '@/contexts';
 import { SummaryElement } from './SummaryElement';
 export const SummaryPopup: React.FC<ISummaryPopupProps> = () => {
-  const { hideSummaryPopup } = useDiamondContext();
+  const { hideSummaryPopup, getSummaryData, selectedFacets } = useDiamondContext();
   const cutDiamondHandler = () => {
     console.log('cut diaomnd');
   };
+
+  const data: {
+    add: { methodName: string; groupName: string; address: string }[];
+    remove: { methodName: string; groupName: string; address: string }[];
+    replace: { methodName: string; groupName: string; address: string }[];
+  } = {
+    add: [
+      {
+        methodName: 'someMethod',
+        groupName: 'someGroup',
+        address: '0x000x0x00x00x00x00x0x00xx00x0x0',
+      },
+    ],
+    replace: [
+      {
+        methodName: 'someMethod',
+        groupName: 'someGroup',
+        address: '0x000x0x00x00x00x00x0x00xx00x0x0',
+      },
+    ],
+    remove: [
+      {
+        methodName: 'someMethod',
+        groupName: 'someGroup',
+        address: '0x000x0x00x00x00x00x0x00xx00x0x0',
+      },
+    ],
+  };
+
+  // console.log('selectedFacets', selectedFacets);
+
+  const summaryData = getSummaryData(selectedFacets);
+
   return (
     <div className={styles.container}>
       <div className={styles.shade}></div>
@@ -32,35 +65,37 @@ export const SummaryPopup: React.FC<ISummaryPopupProps> = () => {
             <div className={styles.date}>{new Date().toUTCString()}</div>
             <div className={styles.address}>0x1215991085d541A586F0e1968355A36E58C9b2b4</div>
           </div>
-          <div className={styles.updates}>
-            <div className={cn(styles.update, styles.add)}>
-              <div className={styles.heading}>Add</div>
-              <div className={styles.elements}>
-                <SummaryElement />
-                <SummaryElement />
-                <SummaryElement />
-                <SummaryElement />
+          {summaryData ? (
+            <div className={styles.updates}>
+              <div className={cn(styles.update, styles.add)}>
+                <div className={styles.heading}>Add</div>
+                <div className={styles.elements}>
+                  {summaryData &&
+                    summaryData.add.map((method) => (
+                      <SummaryElement key={method.address + method.methodName} {...method} />
+                    ))}
+                </div>
+              </div>
+              <div className={cn(styles.update, styles.replace)}>
+                <div className={styles.heading}>Replace</div>
+                <div className={styles.elements}>
+                  {summaryData.replace.map((method) => (
+                    <SummaryElement key={method.address + method.methodName} {...method} />
+                  ))}
+                </div>
+              </div>
+              <div className={cn(styles.update, styles.remove)}>
+                <div className={styles.heading}>Remove</div>
+                <div className={styles.elements}>
+                  {summaryData.remove.map((method) => (
+                    <SummaryElement key={method.address + method.methodName} {...method} />
+                  ))}
+                </div>
               </div>
             </div>
-            <div className={cn(styles.update, styles.replace)}>
-              <div className={styles.heading}>Replace</div>
-              <div className={styles.elements}>
-                <SummaryElement />
-                <SummaryElement />
-                <SummaryElement />
-                <SummaryElement />
-              </div>
-            </div>
-            <div className={cn(styles.update, styles.remove)}>
-              <div className={styles.heading}>Remove</div>
-              <div className={styles.elements}>
-                <SummaryElement />
-                <SummaryElement />
-                <SummaryElement />
-                <SummaryElement />
-              </div>
-            </div>
-          </div>
+          ) : (
+            <h3 className={styles.h3}>No updates</h3>
+          )}
         </div>
       </div>
     </div>

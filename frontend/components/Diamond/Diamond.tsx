@@ -75,7 +75,7 @@ export const Diamond: React.FC<IDiamondProps> = () => {
   //   setFacets(mappedFacets);
   // }, [cuttedFacets, selectedFacets]);
   // console.log('diamond', selectedFacets);
-  console.log('dif', getCutAndSelectedFacetsDiff());
+  // console.log('dif', getCutAndSelectedFacetsDiff());
   return (
     <div className={styles.container}>
       <div className={styles.diamondImage}>
