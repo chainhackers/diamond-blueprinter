@@ -1,6 +1,8 @@
 import { ethers } from "hardhat";
 import { BaseContract } from "ethers";
 import fs from 'fs/promises';
+import Arweave from 'arweave';
+import jwk_data from './../../cache/arweave-keyfile.json'
 
 const groupName = "Characters"
 const systemName = "TrivialCharacterSystem"
@@ -21,6 +23,14 @@ const storageContents  = `struct AliveState {
     return state.alive[id];
   }`
 
+console.log('initialize A')
+const arweave = Arweave.init({
+  host: 'arweave.net',
+  port: 443,
+  protocol: 'https'
+});
+console.log('initialized  A')
+
 async function deploySystem(systemName: string): Promise<BaseContract> {
   const System = await ethers.getContractFactory(systemName)
   console.log('Deploying ' + systemName)
@@ -38,8 +48,25 @@ async function deploySystem(systemName: string): Promise<BaseContract> {
 
   await fs.writeFile(
     'cache/registry_metadata_saved.json',
-    JSON.stringify(resultJson)
+    JSON.stringify(resultJson, null, 4)
   );
+
+  //save to arweave
+  //let key = await arweave.wallets.generate();
+  let transactionA = await arweave.createTransaction({
+      data: JSON.stringify(resultJson, null, 4)
+  }, jwk_data);
+
+  await arweave.transactions.sign(transactionA, jwk_data);
+
+  let uploader = await arweave.transactions.getUploader(transactionA);
+
+  while (!uploader.isComplete) {
+    await uploader.uploadChunk();
+    console.log(`${uploader.pctComplete}% complete, ${uploader.uploadedChunks}/${uploader.totalChunks}`);
+  }
+  //get public url
+  
 
   return system
 }
