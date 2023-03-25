@@ -1,0 +1,27 @@
+.container {
+  background-color: #dceefb;
+  border-radius: 16px;
+  padding: 0.8rem;
+  max-width: 25rem;
+
+  &:not(:last-child) {
+    margin-bottom: 1rem;
+  }
+
+  .method {
+    font-size: 1.8rem;
+    line-height: 1.8rem;
+    padding: 0.4rem;
+  }
+
+  .group {
+    font-size: 1.2rem;
+    line-height: 1.2rem;
+    padding: 0rem 0.4rem;
+  }
+  .address {
+    font-size: 1.4rem;
+    line-height: 1.4rem;
+    padding: 0.4rem;
+  }
+}

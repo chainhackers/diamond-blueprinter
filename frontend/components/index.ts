@@ -7,3 +7,4 @@ export * from './Diamond';
 export * from './Facets';
 export * from './FacetPopup';
 export * from './ResultingInterface';
+export * from './SummaryPopup';

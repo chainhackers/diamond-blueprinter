@@ -36,7 +36,7 @@ export const Diamond: React.FC<IDiamondProps> = () => {
   //   },
   // ];
 
-  const { cuttedFacets, selectedFacets, showPopup, getCutAndSelectedFacetsDiff } =
+  const { cuttedFacets, selectedFacets, showPopup, getCutAndSelectedFacetsDiff, showSummaryPopup } =
     useDiamondContext();
   // const [facets, setFacets] = useState<IFacet[]>([]);
   // const pickedElems: any = [];
@@ -106,7 +106,8 @@ export const Diamond: React.FC<IDiamondProps> = () => {
               ))} */}
           </div>
           <div className={styles.cutButton}>
-            <button disabled={getCutAndSelectedFacetsDiff().length === 0}>Cut</button>
+            {/* <button disabled={getCutAndSelectedFacetsDiff().length === 0}>Cut</button> */}
+            <button onClick={showSummaryPopup}>Cut</button>
           </div>
         </div>
 

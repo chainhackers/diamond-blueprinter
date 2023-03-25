@@ -1,13 +1,16 @@
-import { IFacet, IFacetGroup, IMethod, IPopupData } from '@/types';
+import { IFacet, IFacetGroup, IMethod, IPopupData, ISummaryData } from '@/types';
 import { bool } from 'prop-types';
 import { createContext, Dispatch, SetStateAction, useContext, useEffect, useState } from 'react';
 
 interface IDiamondContextState {
   isPopupShown: boolean;
+  isSummaryPopupShown: boolean;
   showPopup: (data: IPopupData) => void;
+  showSummaryPopup: () => void;
   popupData: IPopupData | null;
   hidePopup: () => void;
   togglePopup: () => void;
+  hideSummaryPopup: () => void;
   facets: IFacet[];
   updateFacet: (facet: IFacet) => void;
   updateSelectedFacets: (facet: IFacet) => void;
@@ -21,9 +24,12 @@ interface IDiamondContextState {
 const diamondDefaultContextState: IDiamondContextState = {
   isPopupShown: false,
   showPopup: (data: IPopupData) => undefined,
+  isSummaryPopupShown: false,
+  showSummaryPopup: () => undefined,
   popupData: null,
   hidePopup: () => undefined,
   togglePopup: () => undefined,
+  hideSummaryPopup: () => undefined,
   facets: [],
   updateFacet: (facet: IFacet) => undefined,
   updateSelectedFacets: (facet: IFacet) => undefined,
@@ -40,6 +46,7 @@ export const useDiamondContext = () => useContext(DiamondContext);
 
 export const DiamondContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isPopupShown, setShowPopup] = useState<boolean>(false);
+  const [isSummaryPopupShown, setShowSummaryPopup] = useState<boolean>(false);
   const [popupData, setPopupData] = useState<IPopupData | null>(null);
   const [facets, setFacets] = useState<IFacet[]>(testFacets);
   const [selectedFacets, setSelectedFacets] = useState<IFacet[]>(testSelectedFacets);
@@ -48,6 +55,11 @@ export const DiamondContextProvider: React.FC<{ children: React.ReactNode }> = (
   const showPopup = (data: IPopupData) => {
     setShowPopup(true);
     setPopupData(data);
+  };
+
+  const showSummaryPopup = () => {
+    setShowPopup(false);
+    setShowSummaryPopup(true);
   };
 
   const updateFacet = (facet: IFacet) => {
@@ -112,6 +124,8 @@ export const DiamondContextProvider: React.FC<{ children: React.ReactNode }> = (
   }, [cuttedFacets]);
 
   const value: IDiamondContextState = {
+    isSummaryPopupShown,
+    showSummaryPopup,
     cuttedFacets,
     selectedFacets,
     facets,
@@ -120,6 +134,7 @@ export const DiamondContextProvider: React.FC<{ children: React.ReactNode }> = (
     showPopup,
     hidePopup: () => setShowPopup(false),
     togglePopup: () => setShowPopup(!isPopupShown),
+    hideSummaryPopup: () => setShowSummaryPopup(false),
     updateFacet,
     updateSelectedFacets,
     getSelectedFacetMethodsNames,

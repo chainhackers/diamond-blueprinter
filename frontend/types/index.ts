@@ -33,3 +33,7 @@ export interface IPickedElement {
 export interface IPopupData {
   facet: IFacet;
 }
+
+export interface ISummaryData {
+  facet: IFacet;
+}
