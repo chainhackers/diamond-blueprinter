@@ -1,12 +1,23 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "./TrivialCharacterSystem.sol";
 
-contract SimpleCharactersSystem is TrivialCharacterSystem{
+import "../interfaces/sample-facets/ICharactersSystem.sol";
+import "./CharactersStorage.sol";
 
-    //TODO add something less trivial than `TrivialCharacterSystem` does
-    function whatIs(uint256 id) external override pure returns (uint256){return 0;}
+contract SimpleCharactersSystem is ICharactersSystem {
 
-    function isAlive(uint256 id) external override pure returns (bool){return false;}
+    function init() external {
+        CharactersStorage._spawn(uint256(uint160(msg.sender)));
+    }
+
+
+    function whatIs(uint256 id) external view virtual returns (uint256 character){
+        if (CharactersStorage._isAlive(id))
+            character = id;
+    }
+
+    function isAlive(uint256 id) external view virtual returns (bool){
+        return CharactersStorage._isAlive(id);
+    }
 }
