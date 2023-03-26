@@ -79,9 +79,7 @@ export default function Page1() {
 
   const { data, error, loading } = useQuery(diamondQuery);
 
-  console.log(data);
-
-  const getMetaData = async () => {
+  const getMetaData = async (data: any) => {
     const signer = await fetchSigner();
 
     if (!process.env.NEXT_PUBLIC_POLYGONSCAN_API_KEY) {
@@ -107,6 +105,8 @@ export default function Page1() {
       return;
     }
 
+    console.log(data);
+
     const tokenMetadataUrl = await registryContract.uri(
       '1809251394333065553493296641428888434488289667447919996841623166933928239099',
     );
@@ -116,12 +116,18 @@ export default function Page1() {
     getTokenMeta(tokenMetadataUrl);
   };
 
-  getMetaData();
+  // getMetaData();
 
   useEffect(() => {
     setDiamondContractAddress(contract);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [contract]);
+
+  useEffect(() => {
+    if (data) {
+      getMetaData(data);
+    }
+  }, [data]);
 
   return (
     <>

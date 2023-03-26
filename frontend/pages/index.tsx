@@ -87,15 +87,14 @@ export default function Home() {
       <main className={styles.main}>
         <div className={styles.background}></div>
         <div className={styles.title}>
-          <h1 className={styles.h1}>Simple, secure, and fast code begins here</h1>
+          <h1 className={styles.h1}>🚀 Get started with parallel development now!</h1>
         </div>
         <p className={styles.p}>
-          Our web service provides a user-friendly and intuitive diamond constructor, empowering
-          users to build diamonds that can be utilized in smart contracts. With our system, users
-          can customize the properties of their diamonds, creating secure and tamper-proof
-          registries that can protect their transactions. Whether you require a single diamond or
-          multiple diamonds for a complex contract, our service delivers a versatile and reliable
-          tool for creating diamonds that meet your specific needs.
+          Make Your Developers Happy - Develop Contracts Like Microservices Empower your developers
+          by allowing them to work on smart contracts as if they were microservices. Our visual tool
+          simplifies the development process, increasing productivity and satisfaction among your
+          team. Give your developers the flexibility they need to create innovative, efficient, and
+          modular smart contract systems.
         </p>
         <div className={styles.deployButton}>
           <DeployButton
