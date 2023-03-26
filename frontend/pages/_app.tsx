@@ -9,10 +9,11 @@ import { alchemyProvider } from 'wagmi/providers/alchemy';
 
 import { Layout } from '@/components';
 import { DiamondContextProvider } from '@/contexts';
+import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
 
 const { chains, provider, webSocketProvider } = configureChains(
   [polygon],
-  [alchemyProvider({ apiKey: 'Mz4PxJrs78Ud3oRJ3FlAcaPyvhLST_bw' })],
+  [alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY! })],
 );
 
 const { connectors } = getDefaultWallets({
@@ -27,16 +28,24 @@ const wagmiClient = createClient({
   webSocketProvider,
 });
 
+const cache = new InMemoryCache();
+const client = new ApolloClient({
+  uri: 'https://api.thegraph.com/subgraphs/name/chainhackers/diamond-blueprinter',
+  cache,
+});
+
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <DiamondContextProvider>
-      <WagmiConfig client={wagmiClient}>
-        <RainbowKitProvider chains={chains}>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </RainbowKitProvider>
-      </WagmiConfig>
-    </DiamondContextProvider>
+    <ApolloProvider client={client}>
+      <DiamondContextProvider>
+        <WagmiConfig client={wagmiClient}>
+          <RainbowKitProvider chains={chains}>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </RainbowKitProvider>
+        </WagmiConfig>
+      </DiamondContextProvider>
+    </ApolloProvider>
   );
 }

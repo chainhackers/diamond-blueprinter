@@ -11,6 +11,12 @@ import {
 } from '@/components';
 import { IFacet, IStoragaData } from '@/types';
 import { useDiamondContext } from '@/contexts';
+import { useQuery } from '@apollo/client';
+import { diamondQuery } from '@/queries';
+import { fetchSigner } from '@wagmi/core';
+
+import { getContract, getTokenMeta } from '@/chainApi';
+
 export default function Page1() {
   const router = useRouter();
   // console.log(router);
@@ -67,6 +73,48 @@ export default function Page1() {
   // };
 
   const { isPopupShown, isSummaryPopupShown } = useDiamondContext();
+
+  const { data, error, loading } = useQuery(diamondQuery);
+
+  console.log(data);
+
+
+  const getMetaData = async () => {
+    const signer = await fetchSigner();
+
+    if (!process.env.NEXT_PUBLIC_POLYGONSCAN_API_KEY) {
+      console.error('no polygon api key');
+      return;
+    }
+
+    if (!signer) {
+      console.error('no signer');
+      return;
+    }
+
+    if (!process.env.NEXT_PUBLIC_REGISTRY_CONTRACT_ADDRESS) {
+      console.error('no registry address');
+      return;
+    }
+    const registryContract = await getContract(process.env.NEXT_PUBLIC_REGISTRY_CONTRACT_ADDRESS);
+
+    // console.log(registryContract);
+
+    if (!registryContract) {
+      console.log('cant get registry contract');
+      return;
+    }
+
+    const tokenMetadataUrl = await registryContract.uri(
+      '1809251394333065553493296641428888434488289667447919996841623166933928239099',
+    );
+
+    // console.log(tokenMetadataUrl);
+
+    getTokenMeta(tokenMetadataUrl);
+  };
+
+  getMetaData();
 
   return (
     <>
