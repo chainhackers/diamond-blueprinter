@@ -22,29 +22,32 @@ export const Introduction: React.FC<IIntroductionProps> = () => {
           <img src='/images/thing-1.png' alt='thing1' />
         </div>
         <div className={styles.card}>
-          <div className={styles.icon}>👀</div>
+          <div className={styles.icon}>🔖</div>
           <div className={styles.text}>
-            View Deployed Facets: Explore the facet contracts registered with your diamond, whether
-            they are new versions of existing systems or entirely new ones.
+            View Annotated Storage Slots: Easily access the storage slots used by facets in your
+            diamond. See the names, data structure definitions, and find out which facets are
+            utilizing them.
           </div>
         </div>
         <div className={styles.card}>
-          <div className={styles.icon}>🔗</div>
+          <div className={styles.icon}>💾</div>
           <div className={styles.text}>
-            Manage Functions: Add, replace, or remove facet functions, and update your ERC-2535
-            diamond in one transaction.
+            Persistent Data Storage: each storage slot is filled through usage by facets. When a
+            facet is changed or removed, the data remains intact within the diamond, allowing the
+            new facet to utilize the existing data without starting from scratch.
           </div>
         </div>
         <div className={styles.card}>
-          <div className={styles.icon}>🛠</div>
+          <div className={styles.icon}>🔄</div>
           <div className={styles.text}>
-            Manage Functions: Add, replace, or remove facet functions, and update your ERC-2535
-            diamond in one transaction.
+            Smooth Transitions: Change logic processing without refilling data from scratch,
+            ensuring efficient upgrades within your diamond.
           </div>
         </div>
       </div>
       <div className={styles.inter}>
-        Experience the power and flexibility of the Facets Area for ERC-2535 Diamonds.
+        Experience the convenience and efficiency of the Diamond Storage Area for ERC-2535 Diamonds
+        in your smart contract development.
       </div>
 
       <h2 className={styles.title}>Introducing the Function Area</h2>
