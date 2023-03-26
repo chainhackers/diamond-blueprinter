@@ -17,6 +17,7 @@
 
   @media (max-width: 768px) {
     flex-direction: column;
+    margin-bottom: 0;
   }
 }
 
@@ -47,7 +48,7 @@
   box-shadow: 0px 125px 50px rgba(0, 0, 0, 0.01),
     0px 70px 42px rgba(0, 0, 0, 0.05), 0px 31px 31px rgba(0, 0, 0, 0.09),
     0px 8px 17px rgba(0, 0, 0, 0.1), 0px 0px 0px rgba(0, 0, 0, 0.1);
-  border-radius: 24px;
+  border-radius: 12px;
   z-index: 2;
 
   @media (max-width: 1024px) {
@@ -124,7 +125,7 @@
 }
 
 .lineContainer {
-  z-index: 3;
+  z-index: 10;
   position: relative;
   margin-left: -18px;
   margin-right: -18px;
@@ -252,6 +253,7 @@
     0px 70px 42px rgba(0, 0, 0, 0.05), 0px 31px 31px rgba(0, 0, 0, 0.09),
     0px 8px 17px rgba(0, 0, 0, 0.1), 0px 0px 0px rgba(0, 0, 0, 0.1);
   border-radius: 24px;
+  z-index: 2;
 
   @media (max-width: 1440px) {
     height: 32rem;
@@ -360,8 +362,24 @@
 }
 
 .orangeDiamond {
-  height: 9rem;
-  width: 9rem;
+  height: 11rem;
+  width: 13rem;
   position: absolute;
+  top: -5rem;
+  right: -6rem;
   z-index: 1;
+}
+
+.hand {
+  height: 11rem;
+  width: 13rem;
+  position: absolute;
+  top: -9.2rem;
+  right: -1.7rem;
+  z-index: 1;
+}
+
+.outerCard {
+  position: relative;
+  z-index: 3;
 }

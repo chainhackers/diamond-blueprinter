@@ -34,15 +34,17 @@ export const Infographic: React.FC<IInfographicksProps> = () => {
               <p>Other function</p>
             </div>
           </div>
-          <div className={styles.card} style={{ padding: '2rem', flexDirection: 'column' }}>
+          <div className={styles.outerCard}>
             <img src="/images/orange-diamond.png" alt="orange diamond" className={styles.orangeDiamond} />
-            <h4>Diamond</h4>
-            <p
-              className={styles.blueDash}
-              style={{ margin: '0 auto', padding: '1rem' }}
-            >
-              Movement system Data
-            </p>
+            <div className={styles.card} style={{ padding: '2rem', flexDirection: 'column' }}>
+              <h4>Diamond</h4>
+              <p
+                className={styles.blueDash}
+                style={{ margin: '0 auto', padding: '1rem' }}
+              >
+                Movement system Data
+              </p>
+            </div>
           </div>
           <div className={styles.lineContainer}>
             <div className={styles.line}>
@@ -51,8 +53,11 @@ export const Infographic: React.FC<IInfographicksProps> = () => {
               <div className={styles.rightDot}></div>
             </div>
           </div>
+          <div className={styles.outerCard}>
+            <img src="/images/hand.png" alt="hand" className={styles.hand} />
           <div className={styles.card}>
             <p style={{ margin: 'auto', fontWeight: 600 }}>Game client</p>
+          </div>
           </div>
           <div className={styles.lineContainer}>
             <div className={styles.line} style={{ backgroundColor: '#27AB83' }}>
@@ -182,10 +187,13 @@ export const Infographic: React.FC<IInfographicksProps> = () => {
               </div>
             </div>
           </div>
-          <div className={styles.bigCard}>
-            <h4>Diamond</h4>
-            <p className={styles.orangeDash}>Movement system Data</p>
-            <p className={styles.redDash}>Fight system Data</p>
+          <div className={styles.outerCard}>
+            <img src="/images/orange-diamond.png" alt="orange diamond" className={styles.orangeDiamond} />
+            <div className={styles.bigCard}>
+              <h4>Diamond</h4>
+              <p className={styles.orangeDash}>Movement system Data</p>
+              <p className={styles.redDash}>Fight system Data</p>
+            </div>
           </div>
           <div className={styles.lineContainer}>
             <div className={styles.line}>
@@ -204,8 +212,11 @@ export const Infographic: React.FC<IInfographicksProps> = () => {
               <div className={styles.rightDot}></div>
             </div>
           </div>
+          <div className={styles.outerCard}>
+            <img src="/images/hand.png" alt="hand" className={styles.hand} />
           <div className={styles.card}>
             <p style={{ margin: 'auto', fontWeight: 600 }}>Game client</p>
+          </div>
           </div>
           <div className={styles.lineContainer}>
             <div className={styles.line} style={{ backgroundColor: '#27AB83' }}>
