@@ -1,5 +1,7 @@
 import Head from 'next/head';
 import Image from 'next/image';
+import { Introduction } from '@/components/Introduction/Introduction';
+import { Infographic } from '@/components/Infographic';
 import { Inter } from 'next/font/google';
 import styles from '@/styles/Home.module.scss';
 import { DeployButton, Navigation, PoweredBy } from '@/components';
@@ -105,6 +107,8 @@ export default function Home() {
         <div className={styles.poweredBy}>
           <PoweredBy />
         </div>
+        <Introduction />
+        <Infographic />
       </main>
       <footer className={styles.footer}>
         <div className={styles.subTitle}>
