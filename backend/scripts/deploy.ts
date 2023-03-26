@@ -56,6 +56,7 @@ async function deployRegistry(): Promise<FacetRegistry> {
   console.log('Deploying FacetRegistry')
   const registry = await Registry.deploy()
   console.log(`FacetRegistry deployed to ${registry.address}`);
+  await registry.deployed()
   await verify(registry.address, [])
   return registry
 }
