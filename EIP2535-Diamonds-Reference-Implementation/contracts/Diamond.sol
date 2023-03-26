@@ -12,6 +12,7 @@ import { LibDiamond } from "./libraries/LibDiamond.sol";
 import { IDiamondCut } from "./interfaces/IDiamondCut.sol";
 import { IDiamondLoupe } from  "./interfaces/IDiamondLoupe.sol";
 import { IERC173 } from "./interfaces/IERC173.sol";
+import "@openzeppelin/contracts/token/ERC1155/utils/ERC1155Receiver.sol";
 
 // When no function exists for function called
 error FunctionNotFound(bytes4 _functionSelector);
@@ -25,7 +26,7 @@ struct DiamondArgs {
     bytes initCalldata;
 }
 
-contract Diamond {    
+contract Diamond is ERC1155Receiver {    
 
     constructor(IDiamondCut.FacetCut[] memory _diamondCut, DiamondArgs memory _args) payable {
         LibDiamond.setContractOwner(_args.owner);
@@ -68,4 +69,24 @@ contract Diamond {
     }
 
     receive() external payable {}
+
+    function onERC1155Received(
+        address operator,
+        address from,
+        uint256 id,
+        uint256 value,
+        bytes calldata data
+    ) external returns (bytes4) {
+        return this.onERC1155Received.selector;
+    }
+
+    function onERC1155BatchReceived(
+        address operator,
+        address from,
+        uint256[] calldata ids,
+        uint256[] calldata values,
+        bytes calldata data
+    ) external returns (bytes4) {
+        return this.onERC1155BatchReceived.selector;
+    }
 }

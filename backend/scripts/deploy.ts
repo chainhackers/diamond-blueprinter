@@ -3,7 +3,7 @@ import { getSelectors, FacetCutAction } from 'diamond-1-hardhat/scripts/librarie
 import { FacetRegistry, Kimberlite } from "../typechain-types";
 import { verify } from "./verify";
 
-async function deployKimberlite(facetRegistry: FacetRegistry): Promise<Kimberlite> {
+export async function deployKimberlite(facetRegistry: FacetRegistry): Promise<Kimberlite> {
 
   console.log('Deploying facets')
   // The `facetCuts` variable is the FacetCut[] that contains the functions to add during diamond deployment
@@ -51,7 +51,7 @@ async function deployKimberlite(facetRegistry: FacetRegistry): Promise<Kimberlit
   return kimberlite
 }
 
-async function deployRegistry(): Promise<FacetRegistry> {
+export async function deployRegistry(): Promise<FacetRegistry> {
   const Registry = await ethers.getContractFactory("FacetRegistry")
   console.log('Deploying FacetRegistry')
   const registry = await Registry.deploy()
@@ -77,6 +77,3 @@ if (require.main === module) {
     })
 
 }
-
-exports.deployKimberlite = deployKimberlite
-exports.deployRegistry = deployRegistry
