@@ -24,7 +24,7 @@
       position: absolute;
       font-size: 2.4rem;
       line-height: 2.4rem;
-      padding: 1rem 0;
+      padding: 1rem 1rem;
     }
 
     // top: 0;
@@ -40,8 +40,9 @@
       line-height: 3.2rem;
       color: var(--darkest-blue);
       padding: 0.6rem 1.2rem;
+      margin-bottom: 2.2rem;
       @media screen and (max-width: 425px) {
-        padding-left: 4rem;
+        padding-left: 5rem;
       }
     }
 
