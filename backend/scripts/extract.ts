@@ -1,10 +1,39 @@
-import { ethers } from "hardhat";
-async function extract(kimberliteAddress :string) {
+import hre, { ethers } from "hardhat";
+import { deployKimberlite, deployRegistry } from "./deploy";
 
-    console.log('Extract')
+export async function getKimberlite() {
+    if (hre.network.name == "hardhat") {
+        const facetRegistry = await deployRegistry()
+        return deployKimberlite(facetRegistry)
+    }
     const factory = await ethers.getContractFactory("Kimberlite")
-    const contract = await factory.attach(kimberliteAddress)
-    await contract.extractDiamond("https://arweave.net/5S1NrCPfLJX7FgRx78kV8nDJCnwFkWRKSc18pDdD4Sw")
+    if (hre.network.name == "polygon") {
+        return await factory.attach("0xf78b989D3cF27EFc309887501a749fE2aEAAA277")
+    }
+    if (hre.network.name == "mantle_testnet") {
+        return await factory.attach("0x05c7df69BA4Be0F6483F8778606E7253Bc2254A4")
+    }
+    throw "Unknown network"
 }
 
-extract("0x306DD94AdEc5D88383065C237Ed1958687Be4daf")
+export async function extract() {
+    console.log('Extract')
+    const kimberlite = await getKimberlite();
+    const tx = await kimberlite.extractDiamond("https://arweave.net/5S1NrCPfLJX7FgRx78kV8nDJCnwFkWRKSc18pDdD4Sw")
+    const receipt = await tx.wait()
+    const diamondAddress = receipt.events![3].args!.diamond
+    console.log("Extracted diamond", diamondAddress);
+    return diamondAddress;
+}
+
+if (require.main === module) {
+    extract()
+        .then(() => process.exit(0))
+        .catch(error => {
+            console.error(error)
+            process.exit(1)
+        })
+
+}
+
+

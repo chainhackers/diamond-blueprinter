@@ -4,12 +4,15 @@ import fs from 'fs/promises';
 import path from 'path';
 import Arweave from 'arweave';
 import { verify, getEtherscanEndpoint, getEtherscanEndpointOrPolygon } from "../verify";
+import { deployRegistry } from "../deploy"
 //import jwk_data from './../../cache/arweave-keyfile.json'
+import hre from "hardhat"
+import { extract } from "../extract";
 
 const groupName = "Characters"
 const systemName = "TrivialCharactersSystem"
 const storageKey = "character.storage"
-const storageContents  = `struct AliveState {
+const storageContents = `struct AliveState {
     mapping(uint256 => bool) alive;
   }
 
@@ -25,11 +28,24 @@ const storageContents  = `struct AliveState {
     return state.alive[id];
   }`
 
+async function getFacetRegistry() {
+  if (hre.network.name == "hardhat") {
+    return deployRegistry()
+  }
+  const factory = await ethers.getContractFactory("FacetRegistry")
+  if (hre.network.name == "polygon") {
+    return await factory.attach("0xE056F64f06e8D0F7Cd2a9501138D3aFa0eF3FF32")
+  }
+  if (hre.network.name == "mantle_testnet") {
+    return await factory.attach("0x56E427509b7dca569E8F20BE2F30B0206AB6289b")
+  }
+  throw "Unknown network"
+}
 
 async function deploySystem(systemName: string): Promise<BaseContract> {
   // 1. Deploy contract with ethers and hardhat
 
-
+  const facetRegistry = await getFacetRegistry()
 
   const System = await ethers.getContractFactory(systemName)
   const system = await System.deploy()
@@ -37,8 +53,8 @@ async function deploySystem(systemName: string): Promise<BaseContract> {
   await verify(system.address, [])
 
   const etherScanEndpoint = await getEtherscanEndpointOrPolygon()
-  const explorer_url =  `${etherScanEndpoint.urls.browserURL}/address/${system.address}#code`
-  
+  const explorer_url = `${etherScanEndpoint.urls.browserURL}/address/${system.address}#code`
+
   // 2. the resulting metadata of deployed contract is saved locally
   let resultJson = {
     address: system.address,
@@ -57,10 +73,10 @@ async function deploySystem(systemName: string): Promise<BaseContract> {
 
 
 
-  
+
   // 3. the resulting metadata of deployed contract is saved to public decentralized storage
   // here we've got arweave
-  
+
   // NB!  This is an example of saving meta to decentralized storage.
   // To make this demo working, we've put a real jwk file into project
   // Please, make your own arweave wallet and jwk file
@@ -81,7 +97,7 @@ async function deploySystem(systemName: string): Promise<BaseContract> {
 
 
   let transactionA = await arweave.createTransaction({
-      data: JSON.stringify(resultJson, null, 4)
+    data: JSON.stringify(resultJson, null, 4)
   }, jwk_data);
 
   await arweave.transactions.sign(transactionA, jwk_data);
@@ -97,7 +113,15 @@ async function deploySystem(systemName: string): Promise<BaseContract> {
   //TODO  get public url of result
   console.log(`https://viewblock.io/arweave/tx/${transactionA.id}`);
   //TODO  await uploaded
-  
+
+  //Replace with diamond address
+
+  const diamondAddress = await extract();
+  console.log('dddd', diamondAddress);
+  const tx = await facetRegistry.mintFacet(system.address, diamondAddress)
+  const receipt = await tx.wait()
+  console.log(receipt)
+
   return system
 }
 
