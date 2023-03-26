@@ -44,7 +44,7 @@ const mantleChain: Chain = {
 // );
 
 const { provider, chains, webSocketProvider } = configureChains(
-  [mantleChain],
+  [polygon, mantleChain],
   [
     jsonRpcProvider({
       rpc: chain => ({ http: 'https://rpc.testnet.mantle.xyz/' }),
