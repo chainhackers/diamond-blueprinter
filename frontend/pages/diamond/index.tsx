@@ -16,13 +16,16 @@ import { diamondQuery } from '@/queries';
 import { fetchSigner } from '@wagmi/core';
 
 import { getContract, getTokenMeta } from '@/chainApi';
+import { useEffect, useState } from 'react';
 
 export default function Page1() {
   const router = useRouter();
   // console.log(router);
   const { query } = router;
 
-  const { contract } = query;
+  const contract = query.contract as string;
+
+  console.log('contract', contract);
 
   const storages: IStoragaData[] = [
     {
@@ -72,12 +75,11 @@ export default function Page1() {
   //   ],
   // };
 
-  const { isPopupShown, isSummaryPopupShown } = useDiamondContext();
+  const { isPopupShown, isSummaryPopupShown, setDiamondContractAddress } = useDiamondContext();
 
   const { data, error, loading } = useQuery(diamondQuery);
 
   console.log(data);
-
 
   const getMetaData = async () => {
     const signer = await fetchSigner();
@@ -115,6 +117,11 @@ export default function Page1() {
   };
 
   getMetaData();
+
+  useEffect(() => {
+    setDiamondContractAddress(contract);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [contract]);
 
   return (
     <>

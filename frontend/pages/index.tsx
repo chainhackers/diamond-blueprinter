@@ -10,11 +10,14 @@ import { useState } from 'react';
 
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { getContract } from '@/chainApi';
+import { useConnectModal } from '@rainbow-me/rainbowkit';
 const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
   const [deploying, setDeploying] = useState<boolean>(false);
   const [deployingError, setDeployingError] = useState<Error | null>(null);
+  const { openConnectModal } = useConnectModal();
 
   const router = useRouter();
   const deployButtonHandler: React.MouseEventHandler = async () => {
@@ -22,16 +25,43 @@ export default function Home() {
       setDeploying(true);
       setDeployingError(null);
       const signer = await fetchSigner();
+      if (!signer) {
+        openConnectModal!();
+        return;
+      }
 
-      const contract = new ethers.Contract(
-        '0x88c875606ae309172F89F231dF5A9Ffb5AD64994',
-        abi,
-        signer!,
+      console.log(process.env);
+
+      if (!process.env.NEXT_PUBLIC_KIMBERLITE_CONTRACT_ADDRESS) {
+        console.error('on kimberlite address');
+        return;
+      }
+      const contract = await getContract(process.env.NEXT_PUBLIC_KIMBERLITE_CONTRACT_ADDRESS);
+
+      console.log(contract);
+
+      // const contract = new ethers.Contract(
+      //   '0x88c875606ae309172F89F231dF5A9Ffb5AD64994',
+      //   abi,
+      //   signer!,
+      // );
+      if (!contract) {
+        console.error('no contract');
+        return;
+      }
+
+      contract.on('DiamondExtracted', (diamondAddress) => {
+        console.log('DiamondExtracted', diamondAddress);
+        if (receipt.status === 1 && !!diamondAddress)
+          router.push(`/diamond?contract=${diamondAddress}`);
+      });
+
+      const transaction: ContractTransaction = await contract.extractDiamond(
+        process.env.NEXT_PUBLIC_KIMBERLITE_META_URL,
       );
-      const transaction: ContractTransaction = await contract.extractDiamond();
+
       const receipt: ContractReceipt = await transaction.wait();
-      if (receipt.status === 1)
-        router.push(`/diamond?contract=${'0x88c875606ae309172f89f231df5a9ffb5ad64994'}`);
+      console.log(receipt);
     } catch (error) {
       console.log(error);
       if (error instanceof Error) {

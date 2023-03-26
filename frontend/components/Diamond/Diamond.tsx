@@ -36,8 +36,14 @@ export const Diamond: React.FC<IDiamondProps> = () => {
   //   },
   // ];
 
-  const { cuttedFacets, selectedFacets, showPopup, getCutAndSelectedFacetsDiff, showSummaryPopup } =
-    useDiamondContext();
+  const {
+    cuttedFacets,
+    selectedFacets,
+    showPopup,
+    getCutAndSelectedFacetsDiff,
+    showSummaryPopup,
+    diamondContractAddress,
+  } = useDiamondContext();
   // const [facets, setFacets] = useState<IFacet[]>([]);
   // const pickedElems: any = [];
 
@@ -81,7 +87,14 @@ export const Diamond: React.FC<IDiamondProps> = () => {
       <div className={styles.diamondImage}>
         <img src='/images/full-diamond.png' alt='diamond' />
       </div>
-      <h2 className={styles.h2}>Diamond</h2>
+      <h2 className={styles.h2}>
+        Diamond{' '}
+        {diamondContractAddress ? (
+          <span className={styles.address}>{diamondContractAddress}</span>
+        ) : (
+          <span className={styles.address}>no diamond address</span>
+        )}
+      </h2>
       <div className={styles.contains}>
         <div className={styles.diamonBlock}>
           {/* <div className={styles.background}>

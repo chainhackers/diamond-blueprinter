@@ -7,7 +7,6 @@ import {
   ISummaryDataElement,
 } from '@/types';
 
-
 import { createContext, Dispatch, SetStateAction, useContext, useEffect, useState } from 'react';
 
 interface IDiamondContextState {
@@ -29,6 +28,8 @@ interface IDiamondContextState {
   getCutAndSelectedFacetsDiff: () => IFacet[];
   summaryData: ISummaryData | null;
   getSummaryData: (selectedFacet: IFacet[]) => ISummaryData | null;
+  diamondContractAddress: string | undefined;
+  setDiamondContractAddress: (address: string) => void;
 }
 
 const diamondDefaultContextState: IDiamondContextState = {
@@ -50,6 +51,8 @@ const diamondDefaultContextState: IDiamondContextState = {
   getCutAndSelectedFacetsDiff: () => [],
   summaryData: null,
   getSummaryData: (selectedFacet: IFacet[]) => null,
+  diamondContractAddress: undefined,
+  setDiamondContractAddress: (address: string | undefined) => undefined,
 };
 
 export const DiamondContext = createContext<IDiamondContextState>(diamondDefaultContextState);
@@ -64,6 +67,7 @@ export const DiamondContextProvider: React.FC<{ children: React.ReactNode }> = (
   const [facets, setFacets] = useState<IFacet[]>(testFacets);
   const [selectedFacets, setSelectedFacets] = useState<IFacet[]>([]);
   const [cuttedFacets, setCuttedFacets] = useState<IFacet[]>(testCuttedFacets);
+  const [diamondContractAddress, setDiamondContractAddress] = useState<string | undefined>();
 
   const showPopup = (data: IPopupData) => {
     setShowPopup(true);
@@ -470,6 +474,8 @@ export const DiamondContextProvider: React.FC<{ children: React.ReactNode }> = (
     getCutAndSelectedFacetsDiff,
     summaryData,
     getSummaryData,
+    diamondContractAddress,
+    setDiamondContractAddress,
   };
   return <DiamondContext.Provider value={value}>{children}</DiamondContext.Provider>;
 };
