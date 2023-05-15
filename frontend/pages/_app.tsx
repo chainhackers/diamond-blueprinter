@@ -3,16 +3,16 @@ import type { AppProps } from 'next/app';
 
 import '@rainbow-me/rainbowkit/styles.css';
 import { getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit';
-import { configureChains, createClient, WagmiConfig } from 'wagmi';
-import { polygon } from 'wagmi/chains';
-import { alchemyProvider } from 'wagmi/providers/alchemy';
 
 import { Layout } from '@/components';
 import { DiamondContextProvider } from '@/contexts';
+import { WagmiConfig, createConfig, configureChains } from 'wagmi';
+import { publicProvider } from 'wagmi/providers/public';
+import { sepolia } from '@/chains/sepolia';
 
-const { chains, provider, webSocketProvider } = configureChains(
-  [polygon],
-  [alchemyProvider({ apiKey: 'Mz4PxJrs78Ud3oRJ3FlAcaPyvhLST_bw' })],
+const { chains, publicClient, webSocketPublicClient } = configureChains(
+  [sepolia],
+  [publicProvider()]
 );
 
 const { connectors } = getDefaultWallets({
@@ -20,17 +20,17 @@ const { connectors } = getDefaultWallets({
   chains,
 });
 
-const wagmiClient = createClient({
+const config = createConfig({
   autoConnect: true,
+  publicClient,
+  webSocketPublicClient,
   connectors,
-  provider,
-  webSocketProvider,
 });
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <DiamondContextProvider>
-      <WagmiConfig client={wagmiClient}>
+      <WagmiConfig config={config}>
         <RainbowKitProvider chains={chains}>
           <Layout>
             <Component {...pageProps} />
