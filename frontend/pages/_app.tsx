@@ -6,13 +6,7 @@ import { getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit';
 
 import { Layout } from '@/components';
 import { DiamondContextProvider } from '@/contexts';
-import {
-  WagmiConfig,
-  createConfig,
-  configureChains,
-  mainnet,
-  Chain,
-} from 'wagmi';
+import { WagmiConfig, createConfig, configureChains } from 'wagmi';
 import { publicProvider } from 'wagmi/providers/public';
 import { sepolia } from '@/chains/sepolia';
 
